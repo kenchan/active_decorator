@@ -18,6 +18,14 @@ module ActiveDecorator
         ActionController::Base.send :prepend, ActiveDecorator::Monkey::ActionController::Base
 
         ActionController::Base.send :include, ActiveDecorator::ViewContext::Filter
+
+        if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 0
+          ::ActionController::API.send :prepend, ActiveDecorator::Monkey::AbstractController::Rendering
+
+          ::ActionController::API.send :prepend, ActiveDecorator::Monkey::ActionController::Base
+
+          ::ActionController::API.send :include, ActiveDecorator::ViewContext::Filter
+        end
       end
 
       if Rails::VERSION::MAJOR >= 5
